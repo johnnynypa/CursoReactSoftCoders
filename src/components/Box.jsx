@@ -2,12 +2,16 @@ var React = require('react');
 var pubsub = require('pubsub-js');
 
 var Box = React.createClass({
-
+	getInitialState: function(){
+		return{
+			title: ""
+		}
+	},
 	componentWillMount: function(){ //antes de renderear o montar
 		this.pubsub_event = pubsub.subscribe("listener", function(topic, items){
 			//Al recibir el evento
-			console.log(topic, items);
-		});
+			this.setState({title: items});
+		}.bind(this));
 	},
 	componentWillUnMount: function(){ //cuando se desmonte
 		pubsub.unsubscribe(this.pubsub_event);
@@ -19,6 +23,7 @@ var Box = React.createClass({
 		return(
 			<div>
 				Hola. No tengo familia
+				{this.state.title}
 			</div>
 		);
 	}

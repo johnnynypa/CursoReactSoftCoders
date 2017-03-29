@@ -4,7 +4,7 @@ var pubsub = require('pubsub-js');
 var navItem = React.createClass({
 	onClick: function(event){
 		this.props.onClick(event);
-		pubsub.publish('listener', true);
+		pubsub.publish('listener', "hola");
 	},
 	render: function(){
 		return(

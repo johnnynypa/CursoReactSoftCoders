@@ -1,6 +1,8 @@
 var React = require('react');
 var NavItem = require('./NavItem.jsx');
 var Box = require('./Box.jsx');
+var Reflux = require('reflux');
+var DataStore = require('./DataStore.jsx');
 
 var menu = [
   {
@@ -18,6 +20,20 @@ var menu = [
 ];
 
 var NavBar = React.createClass({
+	getInitialState: function(){
+		return{
+			info: ''
+		}
+	},
+	mixins:[Reflux.listenTo(DataStore, 'onResult')],
+	componentWillMount: function(){
+		DataStore.getExchange();
+	},
+	onResult: function(event, items){
+		this.setState({
+			info: items.Rate
+		});
+	},
 	onAlert: function(event){ //comunicacion padre e hijo
 		alert("Clickeadp")
 	},
@@ -48,6 +64,7 @@ var NavBar = React.createClass({
 					</div>
 				</nav>
 				<Box/>
+				El precio del dolar en mexico es de: {this.state.info}
 			</div>
 		);
 	}
